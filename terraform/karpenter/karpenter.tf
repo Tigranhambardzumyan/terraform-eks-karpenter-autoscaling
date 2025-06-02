@@ -1,0 +1,1 @@
+# Karpenter-specific Terraform code
