@@ -1,1 +1,49 @@
-# GitHub Actions workflow (placeholder)
+name: Terraform CI/CD with GitHub Secrets
+
+on:
+  push:
+    branches:
+      - development
+      - master
+
+jobs:
+  terraform:
+    name: Deploy to ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+    runs-on: [self-hosted, terraform]
+
+    environment:
+      name: ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="project_tag=${{ secrets.TF_VARS_PROJECT_TAG }}"
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
+        run: |
+          terraform apply -auto-approve \
+            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="project_tag=${{ secrets.TF_VARS_PROJECT_TAG }}"
