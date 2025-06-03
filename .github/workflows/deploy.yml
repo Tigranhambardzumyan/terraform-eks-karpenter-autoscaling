@@ -1,19 +1,23 @@
-name: Terraform CI/CD with GitHub Secrets
+name: Terraform CI/CD with GitHub Secrets (Manual)
 
 on:
-  push:
-    branches:
-      - development
-      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Environment'
+        required: true
+        type: choice
+        options:
+          - Development
+          - Production
 
 jobs:
   terraform:
 
-    name: Deploy to name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
+    name: Deploy to ${{ inputs.environment }}
     runs-on: [self-hosted, terraform]
+    environment: ${{ inputs.environment }}
 
-    environment:
-      name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
 
     defaults:
       run:
@@ -27,7 +31,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
 
-          terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
       - name: Terraform Init
         run: terraform init
@@ -40,5 +43,14 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
         run: terraform apply -auto-approve
+
+      - name: Terraform Output
+        run: terraform output > tf-output.txt
+
+      - name: Upload Terraform Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-output-${{ inputs.environment }}
+          path: terraform/tf-output.txt
+
