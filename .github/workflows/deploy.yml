@@ -8,6 +8,7 @@ on:
 
 jobs:
   terraform:
+
     name: Deploy to name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
     runs-on: [self-hosted, terraform]
 
@@ -25,6 +26,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
+
           terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
       - name: Terraform Init
@@ -34,6 +36,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+
         run: terraform plan
 
       - name: Terraform Apply
