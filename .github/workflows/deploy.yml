@@ -13,7 +13,7 @@ jobs:
     runs-on: [self-hosted, terraform]
 
     environment:
-      name: name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
+      name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
 
     defaults:
       run:
