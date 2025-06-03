@@ -8,11 +8,12 @@ on:
 
 jobs:
   terraform:
-    name: Deploy to ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+
+    name: Deploy to name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
     runs-on: [self-hosted, terraform]
 
     environment:
-      name: ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+      name: name: ${{ github.ref_name == 'master' && 'Production' || github.ref_name == 'development' && 'Development' || 'Unknown' }}
 
     defaults:
       run:
@@ -25,7 +26,8 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.6
+
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
       - name: Terraform Init
         run: terraform init
@@ -34,16 +36,9 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: |
-          terraform plan \
-            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
-            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
-            -var="project_tag=${{ secrets.TF_VARS_PROJECT_TAG }}"
+
+        run: terraform plan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
-        run: |
-          terraform apply -auto-approve \
-            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
-            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
-            -var="project_tag=${{ secrets.TF_VARS_PROJECT_TAG }}"
+        run: terraform apply -auto-approve
