@@ -13,11 +13,9 @@ on:
 
 jobs:
   terraform:
-
     name: Deploy to ${{ inputs.environment }}
     runs-on: [self-hosted, terraform]
     environment: ${{ inputs.environment }}
-
 
     defaults:
       run:
@@ -30,7 +28,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
       - name: Terraform Init
         run: terraform init
@@ -39,7 +37,6 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-
         run: terraform plan
 
       - name: Terraform Apply
@@ -53,4 +50,3 @@ jobs:
         with:
           name: terraform-output-${{ inputs.environment }}
           path: terraform/tf-output.txt
-
