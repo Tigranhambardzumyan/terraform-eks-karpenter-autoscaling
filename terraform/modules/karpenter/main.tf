@@ -1,5 +1,3 @@
-# terraform/modules/karpenter/main.tf
-
 resource "helm_release" "karpenter" {
   name             = "karpenter"
   repository       = var.karpenter_helm_repo

@@ -1,6 +1,3 @@
-# terraform-eks-karpenter-autoscaling
-
-
 provider "aws" {
   region = var.aws_region
 }
@@ -48,7 +45,7 @@ module "eks" {
 }
 
 module "karpenter" {
-  source              = "./karpenter"
+  source              = "./modules/karpenter"
   cluster_name        = var.cluster_name
   cluster_endpoint    = var.cluster_endpoint
   oidc_provider_arn   = var.oidc_provider_arn
@@ -67,8 +64,3 @@ output "karpenter_irsa_arn" {
   value = module.karpenter.irsa_arn
 }
 
-# CI/CD with GitHub Actions is configured in `.github/workflows/deploy.yml`
-# - Applies Terraform from the appropriate environment (dev/prod)
-# - Uses GitHub Environments for approval and secret isolation
-# - Self-hosted runner on AWS EC2
-# - Secrets and variables supply values like cluster name, endpoint, OIDC provider ARN, subnets, and SGs
