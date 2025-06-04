@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graviton-demo
-  namespace: ${PROJECT_TAG}
-
+  namespace: ${{ vars.TF_VARS_PROJECT_TAG }}
 spec:
   replicas: 1
   selector:
