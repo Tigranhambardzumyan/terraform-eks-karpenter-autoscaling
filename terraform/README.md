@@ -1,46 +1,73 @@
-# Terraform EKS Cluster with Karpenter Autoscaling
+# ☁️ Terraform AWS EKS + Karpenter Infrastructure
 
-This module sets up an EKS cluster with support for Karpenter autoscaling, Graviton and Spot instance provisioning.
+This directory defines the core infrastructure for deploying an EKS cluster on AWS with Karpenter autoscaling support. It uses reusable modules and GitHub Actions for CI/CD deployment.
 
-## Structure
+---
+
+## 📁 Structure
 
 terraform/
-├── main.tf # Root module to deploy VPC, EKS, and Karpenter modules
-├── variables.tf # Input variables (used via GitHub Variables/Secrets)
-├── outputs.tf # Exports useful values like cluster name
+├── main.tf # Root composition: VPC, EKS, Karpenter module
+├── variables.tf # Input variables passed via GitHub Secrets/Variables
+├── outputs.tf # Cluster name and Karpenter IRSA output
 ├── providers.tf # AWS provider config
-├── karpenter/ # Karpenter module
+├── modules/
+│ └── karpenter/ # Custom Helm-based module to install Karpenter
 │ ├── main.tf
 │ ├── variables.tf
-│ └── outputs.tf
+│ ├── outputs.tf
+│ └── README.md
 
 
-## How it Works
+---
 
-- Values like region, subnets, and cluster config are injected from GitHub Secrets and Variables.
-- EKS is deployed with the latest supported version.
-- Karpenter is installed via Helm and configured using IRSA.
-- Supports dynamic provisioning of both x86 and ARM nodes via Karpenter Provisioners (manually added post-deployment).
-- Designed for CI/CD with GitHub Actions and environment-based isolation (`Production` and `Development`).
+## 🚀 What It Does
 
-## Requirements
+- **Creates a new VPC** with public/private subnets across 3 AZs
+- **Deploys an EKS cluster** (latest version) using Terraform AWS modules
+- **Installs Karpenter** via a custom Helm module
+- Supports both **x86 and Graviton (arm64)** architectures using Spot and On-Demand provisioning
+- Integrated with **GitHub Actions** CI/CD using environment-based secrets and variables
 
-- GitHub repository with:
-  - Environments `Production` and `Development` configured.
-  - All variables and secrets declared in GitHub Environments.
-- AWS IAM role for GitHub Runner.
-- A self-hosted runner attached to your repository.
+---
 
-## CI/CD
+## 🔐 Configuration
 
-All deployments are handled by `.github/workflows/deploy.yml`:
-- Push to `development` → triggers deploy to Development environment.
-- Push to `master` → triggers deploy to Production with approval.
+No hardcoded values. All parameters are provided through **GitHub Environment Variables and Secrets**, including:
 
-## Cleanup
+- Cluster name, version, region
+- Subnets, security groups, OIDC/IAM roles
+- Karpenter Helm config
 
-To remove infrastructure:
+---
 
-```bash
-terraform destroy -var="..."  # Secrets/vars injected automatically in CI
+## 📦 Outputs
 
+After deployment, the following outputs are available:
+
+- `cluster_name` – EKS cluster name
+- `karpenter_irsa_arn` – IAM Role for Service Account (IRSA) used by Karpenter
+
+---
+
+## 📂 Karpenter Module
+
+See [`modules/karpenter/`](modules/karpenter/) for Helm deployment logic and configuration for the Karpenter controller.
+
+---
+
+## ⚙️ Apply via GitHub Actions
+
+Deployment is triggered through [workflow_dispatch] using:
+
+- Environment: `Development` or `Production`
+- Secrets/vars set in GitHub Environments
+
+Manual triggers ensure approval protection in production.
+
+---
+
+## 📚 Related Docs
+
+- [`info/terraform-module`](../info/terraform-module) – Additional module usage and design
+- [`info/github-actions-runner`](../info/github-actions-runner) – CI/CD setup and runner configuration
