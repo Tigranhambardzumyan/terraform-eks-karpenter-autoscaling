@@ -1,1 +1,0 @@
-# Karpenter outputs
