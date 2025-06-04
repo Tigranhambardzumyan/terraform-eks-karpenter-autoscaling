@@ -60,6 +60,7 @@ jobs:
             -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
 
 
+
       - name: Terraform Output
         run: terraform output > tf-output.txt
 
