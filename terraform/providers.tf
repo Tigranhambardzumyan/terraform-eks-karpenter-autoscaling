@@ -1,1 +1,3 @@
-# Terraform providers
+provider "aws" {
+  region = var.aws_region
+}
