@@ -1,1 +1,0 @@
-# Karpenter vs NodeGroup rationale
