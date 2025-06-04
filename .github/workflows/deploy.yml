@@ -1,4 +1,4 @@
-name: Terraform CI/CD with GitHub Secrets (Manual)
+name: EKS Infrastructure Provisioning with Terraform and Karpenter
 
 on:
   workflow_dispatch:
