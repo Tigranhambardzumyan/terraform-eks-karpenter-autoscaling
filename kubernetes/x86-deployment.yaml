@@ -1,1 +1,21 @@
-# x86 pod deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: x86-demo
+  namespace: karpenter-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: x86-demo
+  template:
+    metadata:
+      labels:
+        app: x86-demo
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      containers:
+        - name: x86-container
+          image: public.ecr.aws/amazonlinux/amazonlinux:latest
+          command: ["/bin/sh", "-c", "while true; do echo hello from x86; sleep 10; done"]

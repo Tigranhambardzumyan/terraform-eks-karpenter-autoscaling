@@ -1,1 +1,6 @@
-# Namespace manifest
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: karpenter-demo
+  labels:
+    purpose: demo
