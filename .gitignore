@@ -1,2 +1,37 @@
-# Ignore Terraform state files
+# Ignore Terraform state files and backups
 *.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
+.terraform/
+.terraform.lock.hcl
+
+# Ignore CLI history
+.terraformrc
+terraform.rc
+
+# Ignore IDE/editor config files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore GitHub Actions artifacts
+tf-output.txt
+*.log
+
+# Ignore sensitive output or custom scripts
+output.json
+*.pem
+*.key
+*.crt
+*.zip
+
+# Node/npm (if any js tooling used)
+node_modules/
