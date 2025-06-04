@@ -26,6 +26,7 @@ Overview of the Terraform CI/CD workflow:
 
 ![Terraform CI/CD Workflow](github_actions_diagram.png)
 
+
 ## 💡 Notes
 
 * The runner should have a persistent EBS volume or be backed up if ephemeral
