@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graviton-demo
-  namespace: karpenter-demo
+  namespace: ${PROJECT_TAG}
+
 spec:
   replicas: 1
   selector:
