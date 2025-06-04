@@ -1,35 +1,23 @@
-# Kubernetes Demo Workloads
+# Kubernetes Deployments for Testing Karpenter
 
-This directory includes sample Kubernetes manifests for demonstrating how Karpenter can provision ARM64 (Graviton) and AMD64 (x86) nodes.
+This directory contains Kubernetes manifests for testing the functionality of Karpenter on both x86 and ARM64 (Graviton) instance types.
 
-## Files
+---
 
-- `namespace.yaml`: Creates a dedicated namespace `karpenter-demo`.
-- `graviton-deployment.yaml`: Deploys a pod to ARM64 (Graviton) nodes using a `nodeSelector`.
-- `x86-deployment.yaml`: Deploys a pod to AMD64 (x86) nodes using a `nodeSelector`.
+## 🚀 Files Included
 
-## Usage
+| File                    | Description |
+|-------------------------|-------------|
+| `namespace.yaml`        | Creates a `karpenter-demo` namespace for isolating test workloads. |
+| `x86-deployment.yaml`   | Sample deployment with node selectors to schedule on x86 architecture nodes. |
+| `graviton-deployment.yaml` | Sample deployment with node selectors to schedule on ARM64 (Graviton) nodes. |
 
-Apply the resources:
+---
 
+## 🧪 How to Use
+
+Ensure your EKS cluster is deployed and Karpenter is configured with instance types that support both x86 and ARM64.
+
+### Apply namespace
 ```bash
 kubectl apply -f namespace.yaml
-kubectl apply -f graviton-deployment.yaml
-kubectl apply -f x86-deployment.yaml
-```
-
-## Verify
-
-Check that pods are scheduled to correct node types:
-
-```bash
-kubectl get pods -n karpenter-demo -o wide
-```
-
-## Cleanup
-
-```bash
-kubectl delete -f graviton-deployment.yaml
-kubectl delete -f x86-deployment.yaml
-kubectl delete -f namespace.yaml
-```
