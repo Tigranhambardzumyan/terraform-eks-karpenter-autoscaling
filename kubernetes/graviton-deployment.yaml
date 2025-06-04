@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: graviton-demo
   namespace: ${PROJECT_TAG}
+
 spec:
   replicas: 1
   selector:
