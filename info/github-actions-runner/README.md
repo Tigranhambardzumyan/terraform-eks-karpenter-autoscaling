@@ -22,7 +22,8 @@ See [self-hosted-runner.md](self-hosted-runner.md) for step-by-step instructions
 
 Refer to the diagrams:
 
-* `github_actions_diagram.png`: Overview of the Terraform CI/CD workflow
+![Terraform CI/CD Workflow](info/github-actions-runner/github_actions_diagram.png)
+
 
 ## 💡 Notes
 
