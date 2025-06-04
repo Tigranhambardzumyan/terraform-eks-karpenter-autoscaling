@@ -24,6 +24,7 @@ Refer to the diagrams:
 
 ![Terraform CI/CD Workflow](info/github-actions-runner/github_actions_diagram.png)
 
+
 ## 💡 Notes
 
 * The runner should have a persistent EBS volume or be backed up if ephemeral
