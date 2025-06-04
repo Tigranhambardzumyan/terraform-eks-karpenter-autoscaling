@@ -37,10 +37,28 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          terraform plan \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
+            -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
+            -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
+            -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
+            -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
+        run: |
+          terraform apply -auto-approve \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
+            -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
+            -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
+            -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
+            -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
+
 
       - name: Terraform Output
         run: terraform output > tf-output.txt
