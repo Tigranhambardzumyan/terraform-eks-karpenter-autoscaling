@@ -1,1 +1,21 @@
-# Graviton pod deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graviton-demo
+  namespace: karpenter-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graviton-demo
+  template:
+    metadata:
+      labels:
+        app: graviton-demo
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
+      containers:
+        - name: graviton-container
+          image: public.ecr.aws/amazonlinux/amazonlinux:latest
+          command: ["/bin/sh", "-c", "while true; do echo hello from graviton; sleep 10; done"]
