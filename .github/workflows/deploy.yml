@@ -46,8 +46,6 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.TF_VARS_AWS_REGION }}
-          role-session-name: GitHubActionsTerraformDeployRole
-          audience: sts.amazonaws.com
 
 
 
