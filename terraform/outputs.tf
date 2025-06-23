@@ -1,7 +1,7 @@
-output "cluster_name" {
-  description = "The name of the EKS cluster"
-  value       = var.cluster_name
-}
+# output "cluster_name" {
+#   description = "The name of the EKS cluster"
+#   value       = var.cluster_name
+# }
 
 output "vpc_id" {
   description = "The ID of the VPC"
@@ -18,7 +18,7 @@ output "eks_cluster_version" {
   value       = module.eks.cluster_version
 }
 
-output "karpenter_irsa_arn" {
-  description = "IAM Role ARN used by Karpenter (via IRSA)"
-  value       = module.karpenter.irsa_arn
-}
+# output "karpenter_irsa_arn" {
+#   description = "IAM Role ARN used by Karpenter (via IRSA)"
+#   value       = module.karpenter.irsa_arn
+# }
