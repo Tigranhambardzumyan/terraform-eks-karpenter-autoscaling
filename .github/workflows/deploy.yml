@@ -14,7 +14,7 @@ on:
 jobs:
   terraform:
     name: Deploy to ${{ inputs.environment }}
-    runs-on: [self-hosted, terraform]
+    runs-on: self-hosted
     environment: ${{ inputs.environment }}
 
     defaults:
