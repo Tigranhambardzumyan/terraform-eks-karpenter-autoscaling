@@ -44,13 +44,11 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::346378290268:role/GitHubActionsTerraformDeployRole
-          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.TF_VARS_AWS_REGION }}
           role-session-name: GitHubActionsTerraformDeployRole
           audience: sts.amazonaws.com
 
-      - name: Debug STS identity
-        run: aws sts get-caller-identity
 
 
       # - name: Set up Terraform
