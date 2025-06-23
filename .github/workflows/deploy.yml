@@ -54,6 +54,10 @@ jobs:
         with:
           terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
+      - name: List Required Providers
+        run: grep -r "version" .
+
+
       - name: Terraform Init
         run: terraform init
 
