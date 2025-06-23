@@ -49,59 +49,59 @@ jobs:
 
 
 
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: ${{ vars.TERRAFORM_VERSION }}
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
 
-      # - name: Terraform Init
-      #   run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-      # - name: Terraform Validate
-      #   run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
-      # - name: Terraform Plan
-      #   run: |
-      #     terraform plan \
-      #       -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
-      #       -var="vpc_cidr=${{ vars.TF_VARS_VPC_CIDR }}" \
-      #       -var="vpc_name=${{ vars.TF_VARS_VPC_NAME }}" \
-      #       -var="availability_zones=${{ vars.TF_VARS_AVAILABILITY_ZONES }}" \
-      #       -var="public_subnets=${{ secrets.TF_VARS_PUBLIC_SUBNETS }}" \
-      #       -var="private_subnets=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
-      #       -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
-      #       -var="cluster_version=${{ vars.TF_VARS_CLUSTER_VERSION }}" \
-      #       -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
-      #       -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
-      #       -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
-      #       -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
-      #       -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
-      #       -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
+            -var="vpc_cidr=${{ vars.TF_VARS_VPC_CIDR }}" \
+            -var="vpc_name=${{ vars.TF_VARS_VPC_NAME }}" \
+            -var="availability_zones=${{ vars.TF_VARS_AVAILABILITY_ZONES }}" \
+            -var="public_subnets=${{ secrets.TF_VARS_PUBLIC_SUBNETS }}" \
+            -var="private_subnets=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="cluster_version=${{ vars.TF_VARS_CLUSTER_VERSION }}" \
+            -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
+            -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
+            -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
+            -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
+            -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
 
-      # - name: Terraform Apply
-      #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
-      #   run: |
-      #     terraform apply -auto-approve \
-      #       -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
-      #       -var="vpc_cidr=${{ vars.TF_VARS_VPC_CIDR }}" \
-      #       -var="vpc_name=${{ vars.TF_VARS_VPC_NAME }}" \
-      #       -var="availability_zones=${{ vars.TF_VARS_AVAILABILITY_ZONES }}" \
-      #       -var="public_subnets=${{ secrets.TF_VARS_PUBLIC_SUBNETS }}" \
-      #       -var="private_subnets=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
-      #       -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
-      #       -var="cluster_version=${{ vars.TF_VARS_CLUSTER_VERSION }}" \
-      #       -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
-      #       -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
-      #       -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
-      #       -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
-      #       -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
-      #       -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
+        run: |
+          terraform apply -auto-approve \
+            -var="aws_region=${{ secrets.TF_VARS_AWS_REGION }}" \
+            -var="vpc_cidr=${{ vars.TF_VARS_VPC_CIDR }}" \
+            -var="vpc_name=${{ vars.TF_VARS_VPC_NAME }}" \
+            -var="availability_zones=${{ vars.TF_VARS_AVAILABILITY_ZONES }}" \
+            -var="public_subnets=${{ secrets.TF_VARS_PUBLIC_SUBNETS }}" \
+            -var="private_subnets=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="cluster_name=${{ secrets.TF_VARS_CLUSTER_NAME }}" \
+            -var="cluster_version=${{ vars.TF_VARS_CLUSTER_VERSION }}" \
+            -var="cluster_endpoint=${{ secrets.TF_VARS_CLUSTER_ENDPOINT }}" \
+            -var="oidc_provider_arn=${{ secrets.TF_VARS_OIDC_PROVIDER_ARN }}" \
+            -var="karpenter_role_arn=${{ secrets.TF_VARS_KARPENTER_ROLE_ARN }}" \
+            -var="security_group_ids=${{ secrets.TF_VARS_SECURITY_GROUP_IDS }}" \
+            -var="subnet_ids=${{ secrets.TF_VARS_PRIVATE_SUBNETS }}" \
+            -var="tags={ Project = \"${{ secrets.TF_VARS_PROJECT_TAG }}\" }"
 
-      # - name: Terraform Output
-      #   run: terraform output > tf-output.txt
+      - name: Terraform Output
+        run: terraform output > tf-output.txt
 
-      # - name: Upload Terraform Output
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: terraform-output-${{ inputs.environment }}
-      #     path: terraform/tf-output.txt
+      - name: Upload Terraform Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-output-${{ inputs.environment }}
+          path: terraform/tf-output.txt
