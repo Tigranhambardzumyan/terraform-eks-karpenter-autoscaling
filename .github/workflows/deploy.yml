@@ -18,7 +18,7 @@ permissions:
 jobs:
   terraform:
     name: Deploy to ${{ inputs.environment }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     environment: ${{ inputs.environment }}
 
@@ -30,6 +30,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Clean AWS environment variables (for OIDC to work)
+        run: |
+          unset AWS_ACCESS_KEY_ID
+          unset AWS_SECRET_ACCESS_KEY
+          unset AWS_SESSION_TOKEN
+          unset AWS_SECURITY_TOKEN
+          unset AWS_PROFILE
+          echo "AWS environment variables cleared."
 
 
 
