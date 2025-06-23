@@ -22,7 +22,7 @@ resource "helm_release" "karpenter" {
   }
 
   set {
-    name  = "serviceAccount.annotations.eks\.amazonaws\.com/role-arn"
+    name = "serviceAccount.annotations.eks.amazonaws.com/role-arn"
     value = var.karpenter_role_arn
   }
 
